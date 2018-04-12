@@ -50,9 +50,9 @@ $wetest_token = explode(';', $wetest_token)[0];
 $wetest_token = urldecode($wetest_token);
 
 //起止时间
-$curDate = "2016-12-01";
+$curDate = "2016-04-27";
 //$curDate = "2017-11-01";
-$endDate = "2017-12-01";
+$endDate = "2018-04-03";
 
 //创建csv文件
 $rankCsv = Writer::createFromPath("data/{$curDate}_{$endDate}_rank_free.csv", 'w');
