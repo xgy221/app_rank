@@ -4,10 +4,10 @@ import matplotlib.pyplot as plt
 # appId = '3244609'
 appId = '34636'
 
-x = range(1, 366)
+x = range(1, 731)
 y = []
 
-with open('data/2016-12-01_2017-12-01_rank_free.csv', 'r') as f:
+with open('data/rank_list_all.csv', 'r') as f:
     reader = csv.reader(f)
     for line in reader:
         try:
@@ -36,7 +36,7 @@ class LeadingSession:
         self.endTime = leadingEvent.endTime
 
 
-K = 200
+K = 300
 T = 7
 eventList = []
 event = None
@@ -85,6 +85,6 @@ for session in sessionList:
 
 plt.figure()
 plt.plot(x, y)
-plt.ylim(0, 200)
+plt.ylim(0, 300)
 plt.gca().invert_yaxis()
 plt.show()
