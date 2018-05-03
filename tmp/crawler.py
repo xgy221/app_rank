@@ -12,6 +12,7 @@ def get_rank_list(connection, date, token, rankRange):
         'X-CSRF-TOKEN': token,
     }
     postData = {
+        # 1：免费榜 2：付费榜 3：畅销榜
         'listCat': 1,
         'listType': 0,
         'rankRange': rankRange,

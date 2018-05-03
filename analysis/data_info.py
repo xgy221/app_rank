@@ -4,7 +4,7 @@ import math
 import analysis.tool as tool
 
 """数据集中app个数以及排名个数"""
-with open('../data/id_name_all.csv', 'r') as f:
+with open('../data/id_name_all.csv', 'r',encoding='utf-8') as f:
     reader_id = csv.reader(f)
     app_list = list(reader_id)
     print("app个数: " + str(len(app_list)))
