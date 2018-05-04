@@ -22,7 +22,8 @@ def f(n):
 
 sum = 0
 for event_number in event_number:
-    for i in range(0, event_number):
+    for i in range(0, event_number+1):
         sum += (average_number ** i) / f(i)
     evidence3 = math.exp(-average_number) * sum
     print(event_number, evidence3)
+    sum=0
