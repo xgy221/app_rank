@@ -31,7 +31,9 @@ for session in ls.sessionList:
             continue
     if len(degree_sum) == 0:
         continue
+    # 提出的参数：每个主要阶段的平均角度
     degree_s = sum(degree_sum) / len(degree_sum)
+    # 所有主要阶段的角度数组
     degrees.append(degree_s)
 if len(degrees) == 0:
     print('无数据')
@@ -41,6 +43,7 @@ if len(degrees) == 1:
     print(degrees[0])
     exit(1)
 
+# 高斯分布的参数μ
 average = sum(degrees) / len(degrees)
 variance = 0
 sum_degree = 0
@@ -50,6 +53,7 @@ for i in degrees:
     # variance = (i - average) * (i - average)
     # evidence1 = 1 / 2 * (1 + math.erf((i - average) / (math.sqrt(variance) * math.sqrt(2))))
     # print(i, evidence1)
+# 高斯分布的参数σ*σ，相当于本文中的σ
 variance = sum_degree / len(degrees)  # 均值
 for sdegree in degrees:
     evidence1 = 1 / 2 * (1 + math.erf((sdegree - average) / (variance * math.sqrt(2))))

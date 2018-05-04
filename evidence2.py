@@ -23,6 +23,7 @@ for session in ls.sessionList:
             continue
         try:
             print('~~', startTime, middle1Time, middle2Time, endTime)
+            # 文中的Δt
             t_change = middle2Time - middle1Time + 1
             sum_rank = 0
             for time in range(middle1Time-1, middle2Time, 1):
