@@ -9,3 +9,5 @@ composer.phar
 
 .idea
 /__pycache__
+/data/2016-12-01_2017-12-01_app_free.csv
+/data/2016-12-01_2017-12-01_rank_free.csv
