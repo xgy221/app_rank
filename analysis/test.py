@@ -69,7 +69,7 @@ tool.init()
 # a = 1
 
 
-# -------------------------------------计算所有session的sita
+# -------------------------------------计算所有session的sita evidence_1
 
 # ids = tool.app_ids
 #
@@ -81,11 +81,51 @@ tool.init()
 #         if sita > 0:
 #             sitas.append(sita)
 #
-# sitas_mean = np.mean(sitas)  # 3.061398376330555
-# sitas_var = np.var(sitas)  # 0.026046925110970412
+# sitas_mean = np.mean(sitas)  # 3.0326049070384244
+# sitas_var = np.var(sitas)  # 0.035239392759751756
 #
 # a = 1
 
 # -------------------------------------计算所有get_evidence_1
 
-tool.get_evidence_1('23796')
+# tool.get_evidence_1('23796')
+
+# -------------------------------------计算所有session的x evidence_2
+
+# ids = tool.app_ids
+#
+# xs = []
+# for id in ids:
+#     sessions = tool.get_leading_session(id)
+#     for session in sessions:
+#         x = session.get_x()
+#         if x > 0:
+#             xs.append(x)
+#
+# xs_mean = np.mean(xs)  # 188.22618053898066
+# xs_var = np.var(xs)  # 6990.113601081377
+#
+# a = 1
+
+# -------------------------------------计算所有get_evidence_2
+
+# tool.get_evidence_2('23796')
+
+# -------------------------------------计算所有session的 evidence_3
+
+# ids = tool.app_ids
+#
+# ecs = []
+# for id in ids:
+#     sessions = tool.get_leading_session(id)
+#     for session in sessions:
+#         e_c = len(session.eventList)
+#         ecs.append(e_c)
+#
+# lmd = np.mean(ecs)  # 1.7705485378093095
+#
+# a = 1
+
+# -------------------------------------计算所有get_evidence_3
+
+# tool.get_evidence_3('23796')

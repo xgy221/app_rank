@@ -1,9 +1,13 @@
 import csv
 import math
+import numpy as np
 
 # 计算得出
-sitas_mean = 3.061398376330555
-sitas_var = 0.026046925110970412
+sitas_mean = 3.0326049070384244
+sitas_var = 0.035239392759751756
+xs_mean = 188.22618053898066
+xs_var = 6990.113601081377
+lmd = 1.7705485378093095
 
 K = 300
 R = 100
@@ -25,10 +29,24 @@ class LeadingEvent:
     mid2Time = None
     degreeLeft = None
     degreeRight = None
+    mRankSum = 0
 
     def get_degree(self):
         if self.degreeLeft and self.degreeRight:
             return self.degreeLeft + self.degreeRight
+        return 0
+
+    # 维持阶段时长
+    def get_m_t(self):
+        if self.mid1Time and self.mid2Time and self.mid2Time >= self.mid1Time:
+            return self.mid2Time - self.mid1Time + 1
+        return 0
+
+    # 维持阶段排名平均值
+    def get_r_m_mean(self):
+        m_t = self.get_m_t()
+        if self.mRankSum and m_t:
+            return self.mRankSum / m_t
         return 0
 
 
@@ -36,23 +54,42 @@ class LeadingSession:
     eventList = None
     startTime = None
     endTime = None
-    degreeArr = None
 
     def add_event(self, leading_event):
         if not self.eventList:
             self.eventList = []
         self.eventList.append(leading_event)
         self.endTime = leading_event.endTime
-        if not self.degreeArr:
-            self.degreeArr = []
-        event_degree = leading_event.get_degree()
-        if event_degree:
-            self.degreeArr.append(leading_event.get_degree())
 
+    # evidence1 指标
     def get_sita(self):
-        if not self.degreeArr or len(self.degreeArr) == 0:
+        if not self.eventList:
             return 0
-        return sum(self.degreeArr) / len(self.degreeArr)
+        d_arr = []
+        for event in self.eventList:
+            event_degree = event.get_degree()
+            if not event_degree:
+                continue
+            d_arr.append(event_degree)
+        if not len(d_arr):
+            return 0
+        return np.mean(d_arr)
+
+    # evidence2 指标
+    def get_x(self):
+        global K
+        if not self.eventList:
+            return 0
+        x_arr = []
+        for event in self.eventList:
+            duration = event.get_m_t()
+            mean = event.get_r_m_mean()
+            if not duration:
+                continue
+            x_arr.append((K - mean) / duration)
+        if not len(x_arr):
+            return 0
+        return np.mean(x_arr)
 
 
 def get_leading_session(app_id):
@@ -90,18 +127,20 @@ def get_leading_event(app_id):
     event = None
     for i in range(1, len(y)):
         if y[i] <= K:
-            if event:
-                if y[i] <= R:
-                    if not event.mid1Time:
-                        event.mid1Time = i
-                        event.degreeLeft = math.atan((K - y[i]) / (i - event.startTime))
-                    event.mid2Time = i
-                event.endTime = i
-                if event.mid2Time and i > event.mid2Time:
-                    event.degreeRight = math.atan((K - y[event.mid2Time]) / (i - event.mid2Time))
-            else:
+            if not event:
                 event = LeadingEvent()
                 event.startTime = event.endTime = i
+            event.endTime = i
+
+            if y[i] <= R:
+                event.mRankSum += y[i]
+                if not event.mid1Time:
+                    event.mid1Time = i
+                    if i > event.startTime:
+                        event.degreeLeft = math.atan((K - y[i]) / (i - event.startTime))
+                event.mid2Time = i
+            if event.mid2Time and i > event.mid2Time:
+                event.degreeRight = math.atan((K - y[event.mid2Time]) / (i - event.mid2Time))
         elif event:
             event_list.append(event)
             event = None
@@ -175,7 +214,7 @@ def get_app_id_dic_and_ids():
     return dic, ids
 
 
-def get_session_p(session: LeadingSession):
+def get_session_sita_p(session: LeadingSession):
     global sitas_mean, sitas_var
 
     return 1 / 2 * (1 + math.erf((session.get_sita() - sitas_mean) / (sitas_var * math.sqrt(2))))
@@ -184,7 +223,36 @@ def get_session_p(session: LeadingSession):
 def get_evidence_1(app_id):
     sessions = get_leading_session(app_id)
     for session in sessions:
-        print(get_session_p(session))
+        print(get_session_sita_p(session))
+
+
+def get_session_x_p(session: LeadingSession):
+    global xs_mean, xs_var
+
+    return 1 / 2 * (1 + math.erf((session.get_x() - xs_mean) / (xs_var * math.sqrt(2))))
+
+
+def get_evidence_2(app_id):
+    sessions = get_leading_session(app_id)
+    for session in sessions:
+        print(get_session_x_p(session))
+
+
+def get_session_3_p(session: LeadingSession):
+    global lmd
+
+    e_c = len(session.eventList)
+    sum = 0
+
+    for i in range(0, e_c):
+        sum += (lmd ** i) / np.math.factorial(i)
+    return math.exp(-lmd) * sum
+
+
+def get_evidence_3(app_id):
+    sessions = get_leading_session(app_id)
+    for session in sessions:
+        print(get_session_3_p(session))
 
 # global rank_list_all_arr, K, R, T, y
 #
