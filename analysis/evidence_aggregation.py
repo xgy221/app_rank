@@ -4,6 +4,7 @@ evidence_aggregation_sum = []
 average_evidence = []
 variance_sum = []
 
+"""三个证据的权重都是1/3"""
 for array_evidence in array_evidence_list:
     evidence_aggregation = 0
     for i in range(len(array_evidence)):
@@ -12,6 +13,7 @@ for array_evidence in array_evidence_list:
 
 print(evidence_aggregation_sum)
 
+"""variance_sum:所有session的方差列表"""
 for array_evidence in array_evidence_list:
     average_evidence_item = sum(array_evidence) / len(array_evidence)
     average_evidence.append(average_evidence_item)
