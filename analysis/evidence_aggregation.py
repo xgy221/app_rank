@@ -25,7 +25,7 @@ for array_evidence in array_evidence_list:
 
 # print(average_evidence)
 # print(variance_sum)
-
+"""所有session最小化证据的加权差异优化：梯度下降求解。。。"""
 sum_evidence = 0
 for variance in variance_sum:
     for i in range(len(variance)):
