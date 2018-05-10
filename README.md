@@ -7,4 +7,5 @@
 (3)根据挖掘出的session和event，计算出evidence1、evidence2、evidence3（根据所有的session).
 
 要做的工作：
-(1)对所得的三个evidence，求其聚合
+(1)对所得的三个evidence，求其聚合;
+(2)根据求得的所有session的evidence聚合，排序，找出最可能是欺诈的阶段.
