@@ -2,20 +2,21 @@ import analysis.tool as tool
 import matplotlib.pyplot as plt
 import csv
 import numpy as np
+import math
 
 tool.init()
 
-# y = tool.get_app_rank_daily('23350')
-#
-# plt.figure()
-# plt.plot(range(1, 731), y[1:])
-# plt.ylim(0, 300)
-# plt.gca().invert_yaxis()
-# plt.show()
-#
-# a = 1
-#
-# exit(0)
+y = tool.get_app_rank_daily('3351559')
+
+plt.figure()
+plt.plot(range(1, 731), y[1:])
+plt.ylim(0, 300)
+plt.gca().invert_yaxis()
+plt.show()
+
+a = 1
+
+exit(0)
 
 # -------------------------------------------------------------计算所有app_id
 
@@ -129,3 +130,57 @@ tool.init()
 # -------------------------------------计算所有get_evidence_3
 
 # tool.get_evidence_3('23796')
+
+# -------------------------------------存储所有Session的三个证据
+
+# ids = tool.app_ids
+#
+# data = []
+# for id in ids:
+#     sessions = tool.get_leading_session(id)
+#     for session in sessions:
+#         row = [id]
+#         e1 = tool.get_session_sita_p(session)
+#         e2 = tool.get_session_x_p(session)
+#         e3 = tool.get_session_3_p(session)
+#         row.append(e1)
+#         row.append(e2)
+#         row.append(e3)
+#         data.append(row)
+# tool.save_csv('data/session_evidence', data)
+
+
+# -------------------------------------计算三个权重
+# w1 = w2 = w3 = 1 / 3
+# ids = tool.app_ids
+#
+# for id in ids:
+#     sessions = tool.get_leading_session(id)
+#     for session in sessions:
+#         e1 = tool.get_session_sita_p(session)
+#         e2 = tool.get_session_x_p(session)
+#         e3 = tool.get_session_3_p(session)
+#         e = (e1 + e2 + e3) / 3
+#         v1 = (e1 - e) * (e1 - e)
+#         v2 = (e2 - e) * (e2 - e)
+#         v3 = (e3 - e) * (e3 - e)
+#         sum_e = w1 * math.exp(-0.01 * v1) + w2 * math.exp(-0.01 * v2) + w3 * math.exp(-0.01 * v3)
+#         w1 = (w1 * math.exp(-0.01 * v1)) / sum_e
+#         w2 = (w2 * math.exp(-0.01 * v2)) / sum_e
+#         w3 = (w3 * math.exp(-0.01 * v3)) / sum_e
+# print(w1,w2,w3)
+
+# -------------------------------------计算每个Session的a_evidence
+ids = tool.app_ids
+a_evidence_array = []
+for id in ids:
+    sessions = tool.get_leading_session(id)
+    for session in sessions:
+        e1 = tool.get_session_sita_p(session)
+        e2 = tool.get_session_x_p(session)
+        e3 = tool.get_session_3_p(session)
+        a_evidence = tool.w1 * e1 + tool.w2 * e2 + tool.w3 * e3
+        a_evidence_array.append([id, a_evidence])
+a_evidence_array = sorted(a_evidence_array, key=lambda row: -row[-1])
+tool.save_csv('data/session_evidence_aggregation', a_evidence_array)
+
