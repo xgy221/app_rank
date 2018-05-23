@@ -2,7 +2,7 @@ import csv
 import matplotlib.pyplot as plt
 
 # appId = '3244609'
-appId = '34636'
+appId = '33435'
 
 x = range(1, 731)
 y = []
