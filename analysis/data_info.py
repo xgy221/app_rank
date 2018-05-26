@@ -65,6 +65,9 @@ x = range(len(chart_data))
 y = chart_data
 plt.xlim(0, max_i)
 plt.bar(x, y)
+plt.title("Events of Apps")
+plt.xlabel("Number of Events")
+plt.ylabel("Number of Apps")
 plt.savefig('Event_Number.png')
 
 sum = 0
@@ -88,6 +91,9 @@ x = range(len(chart_data))
 y = chart_data
 plt.xlim(0, max_i)
 plt.bar(x, y)
+plt.title("Sessions of Apps")
+plt.xlabel("Number of Sessions")
+plt.ylabel("Number of Apps")
 plt.savefig('Session_Number.png')
 
 sum = 0
@@ -118,6 +124,9 @@ x = range(len(chart_data))
 y = chart_data
 plt.xlim(0, max_i)
 plt.bar(x, y)
+plt.title("Events of Sessions")
+plt.xlabel("Number of Events")
+plt.ylabel("Number of Sessions")
 plt.savefig('Session_Event_Number.png')
 
 sum = 0
