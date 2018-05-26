@@ -6,24 +6,24 @@ import math
 
 tool.init()
 
-# y = tool.get_app_rank_daily('39968')
-#
-# plt.figure()
-# plt.plot(range(1, 731), y[1:])
-# plt.ylim(0, 300)
-# plt.gca().invert_yaxis()
-# plt.show()
-#
-# sessions = tool.get_leading_session('39968')
-# for session in sessions:
-#     print(str(session.startTime) + '-' + str(session.endTime)+ ":")
-#     events = session.eventList
-#     for event in events:
-#         print('\t' + str(event.startTime) + '-' + str(event.endTime))
-#
-# a = 1
-#
-# exit(0)
+y = tool.get_app_rank_daily('39968')
+
+plt.figure()
+plt.plot(range(1, 731), y[1:])
+plt.ylim(0, 300)
+plt.gca().invert_yaxis()
+plt.show()
+
+sessions = tool.get_leading_session('39968')
+for session in sessions:
+    print(str(session.startTime) + '-' + str(session.endTime)+ ":")
+    events = session.eventList
+    for event in events:
+        print('\t' + str(event.startTime) + '-' + str(event.endTime))
+
+a = 1
+
+exit(0)
 
 # -------------------------------------------------------------计算所有app_id
 
