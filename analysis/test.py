@@ -44,31 +44,6 @@ exit(0)
 #
 # tool.save_csv('data/app_rank_daily', table)
 
-# -------------------------------------计算所有session的sita, 存到./data/0.csv中
-
-# ids = tool.app_ids
-#
-# id_sitas = []
-# ii = 0
-# for id in ids:
-#     sessions = tool.get_leading_session(id)
-#     sitas = [id]
-#     for session in sessions:
-#         sita = session.get_sita()
-#         if sita > 0:
-#             sitas.append(sita)
-#     id_sitas.append(sitas)
-#     print(id)
-#
-#     # if len(id_sitas) == 100:
-#     #     tool.save_csv('data/' + str(ii), id_sitas)
-#     #     ii += 1
-#     #     id_sitas = []
-#
-# tool.save_csv('data/' + str(ii), id_sitas)
-#
-# a = 1
-
 
 # -------------------------------------计算所有session的sita evidence_1
 

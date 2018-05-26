@@ -25,6 +25,7 @@ def init():
     get_app_id_dic_and_ids()
 
 
+# event类
 class LeadingEvent:
     startTime = 0
     endTime = 0
@@ -34,6 +35,7 @@ class LeadingEvent:
     degreeRight = None
     mRankSum = 0
 
+    # 获取度数
     def get_degree(self):
         if self.degreeLeft and self.degreeRight:
             return self.degreeLeft + self.degreeRight
@@ -53,6 +55,7 @@ class LeadingEvent:
         return 0
 
 
+# session类
 class LeadingSession:
     eventList = None
     startTime = None
@@ -153,6 +156,7 @@ def get_leading_event(app_id):
     return event_list
 
 
+# 获取一个APP的每天排名
 def get_app_rank_daily(app_id):
     global rank_list_all_arr, app_index_dic
 
@@ -169,6 +173,7 @@ def get_app_rank_daily(app_id):
     return res
 
 
+# 存储csv文件
 def save_csv(file_name, data):
     with open(file_name + ".csv", "w", newline="", encoding='utf-8') as w:
         writer = csv.writer(w)
@@ -176,28 +181,7 @@ def save_csv(file_name, data):
             writer.writerow(row)
 
 
-# def get_session_sita_s(session):
-#     degree_sum = []
-#     for event in session.eventList:
-#
-#         start_time = event.startTime
-#         end_time = event.endTime
-#         middle1_time = event.mid1Time
-#         middle2_time = event.mid2Time
-#         if not middle1_time or not middle2_time == 0:
-#             continue
-#
-#         if middle1_time - start_time > 0 and end_time - middle2_time > 0:
-#             degree1 = math.atan((K - y[middle1_time - 1]) / (middle1_time - start_time))
-#             degree2 = math.atan((K - y[middle2_time - 1]) / (end_time - middle2_time))
-#             degree_sum.append(degree1 + degree2)
-#
-#     if len(degree_sum) == 0:
-#         return 0
-#
-#     return sum(degree_sum) / len(degree_sum)
-
-
+# 获取所有的APP的映射和id（位置和id）
 def get_app_id_dic_and_ids():
     global app_index_dic, app_ids
     if app_index_dic and app_ids:
@@ -256,19 +240,3 @@ def get_evidence_3(app_id):
     sessions = get_leading_session(app_id)
     for session in sessions:
         print(get_session_3_p(session))
-
-# global rank_list_all_arr, K, R, T, y
-#
-# session_list = get_leading_session(app_id)
-#
-# degrees = []
-#
-# for session in session_list:
-#     degree_avg = get_session_seita_s(session)
-#     degrees.append(degree_avg)
-#
-# # 计算全局的 n1, n2
-# n1 = 1  # 平均值
-# n2 = 1  # 方差
-#
-# return 1 / 2 * (1 + math.erf((sdegree - n1) / (n2 * math.sqrt(2))))
