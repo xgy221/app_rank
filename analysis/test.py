@@ -6,13 +6,20 @@ import math
 
 tool.init()
 
-y = tool.get_app_rank_daily('3351559')
+y = tool.get_app_rank_daily('39968')
 
 plt.figure()
 plt.plot(range(1, 731), y[1:])
 plt.ylim(0, 300)
 plt.gca().invert_yaxis()
 plt.show()
+
+sessions = tool.get_leading_session('39968')
+for session in sessions:
+    print(str(session.startTime) + '-' + str(session.endTime)+ ":")
+    events = session.eventList
+    for event in events:
+        print('\t' + str(event.startTime) + '-' + str(event.endTime))
 
 a = 1
 
@@ -158,4 +165,3 @@ for id in ids:
         a_evidence_array.append([id, a_evidence])
 a_evidence_array = sorted(a_evidence_array, key=lambda row: -row[-1])
 tool.save_csv('data/session_evidence_aggregation', a_evidence_array)
-
