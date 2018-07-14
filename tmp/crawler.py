@@ -54,8 +54,8 @@ def get_top_300(dateStart, dateEnd):
         res = res[0:300]
 
         for i in range(0, 300):
-            id_name_dic[res[i].get('entityId')] = res[i].get('game_name')
-            res[i] = res[i].get('entityId')
+            id_name_dic[res[i].get('game_id')] = res[i].get('game_name')
+            res[i] = res[i].get('game_id')
         res_sum.append(res)
 
     id_name = []
