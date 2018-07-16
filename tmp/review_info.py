@@ -2,12 +2,9 @@ import requests
 import urllib.parse
 import datetime
 import csv
-import numpy as np
-import threading
-from dateutil.relativedelta import relativedelta
 
 
-app_id = 190
+app_id = 1612581
 mid_time = ''
 res_review = []
 content_list_sum = []
@@ -23,7 +20,7 @@ def get_review_origin(connection, date_start, date_end, next_page, token):
         'endDate': date_end,
         'keywords': '',
         'entityId': 0,
-        'gameId': 190,
+        'gameId': 1612581,
         'nextPage': next_page,
         'maxPage': 0,
         'currentPage': 0,
@@ -61,7 +58,7 @@ def save_csv(file_name, data):
 def get_review_332(date_start, date_end):
     global mid_time, content_list_sum
     connection = requests.session()
-    connection.get("http://fsight.qq.com/Game/190")
+    connection.get("http://fsight.qq.com/Game/1612581")
     token = urllib.parse.unquote(connection.cookies.get('wetest_token'))
 
     review_sum = []
@@ -79,7 +76,7 @@ def get_review_332(date_start, date_end):
         mid_time = res_review[-1].get('createtime')
         print(mid_time)
 
-    if date_start == datetime.datetime(2016, 5, 1, 00, 00, 00).strftime('%Y-%m-%d %H:%M:%S'):
+    if date_start == datetime.datetime(2017, 5, 1, 00, 00, 00).strftime('%Y-%m-%d %H:%M:%S'):
         for i in range(0, len(review_sum)):
             content_list = []
             content_list.append(review_sum[i].get('createtime'))
@@ -100,7 +97,7 @@ def get_review_332(date_start, date_end):
 
 
 def get_review():
-    get_review_332(datetime.datetime(2016, 5, 1, 00, 00, 00).strftime('%Y-%m-%d %H:%M:%S'),
+    get_review_332(datetime.datetime(2017, 5, 1, 00, 00, 00).strftime('%Y-%m-%d %H:%M:%S'),
                    datetime.datetime(2018, 5, 1, 23, 59, 59).strftime('%Y-%m-%d %H:%M:%S'))
     mid_time_before = ''
     mid_time_after = mid_time
@@ -108,7 +105,7 @@ def get_review():
         get_review_332(mid_time_after, datetime.datetime(2018, 5, 1, 23, 59, 59).strftime('%Y-%m-%d %H:%M:%S'))
         mid_time_before = mid_time_after
         mid_time_after = mid_time
-    save_csv("../data/author_content_" + str(app_id), content_list_sum)
+    save_csv("../review_data/pay/author_content_" + str(app_id), content_list_sum)
 
 
 get_review()
