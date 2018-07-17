@@ -3,7 +3,7 @@ import urllib.parse
 import datetime
 import csv
 
-app_id = 1612581
+app_id = 1185439
 mid_time = ''
 res_review = []
 content_list_sum = []
@@ -11,6 +11,7 @@ content_list_sum = []
 
 # 获取评论
 def get_review_origin(connection, date_start, date_end, next_page, token):
+    global app_id
     headers = {
         'X-CSRF-TOKEN': token,
     }
@@ -19,7 +20,7 @@ def get_review_origin(connection, date_start, date_end, next_page, token):
         'endDate': date_end,
         'keywords': '',
         'entityId': 0,
-        'gameId': 1612581,
+        'gameId': app_id,
         'nextPage': next_page,
         'maxPage': 0,
         'currentPage': 0,
@@ -57,7 +58,7 @@ def save_csv(file_name, data):
 def get_review_332(date_start, date_end):
     global mid_time, content_list_sum
     connection = requests.session()
-    connection.get("http://fsight.qq.com/Game/1612581")
+    connection.get("http://fsight.qq.com/Game/"+str(app_id))
     token = urllib.parse.unquote(connection.cookies.get('wetest_token'))
 
     review_sum = []
