@@ -14,7 +14,7 @@ def get_rank_list(connection, date, token, rankRange):
     }
     postData = {
         # 1：免费榜 2：付费榜 3：畅销榜
-        'listCat': 1,
+        'listCat': 2,
         'listType': 0,
         'rankRange': rankRange,
         'listDate': date,
@@ -60,8 +60,8 @@ def get_top_100(dateStart, dateEnd):
     id_name = []
     for key, value in id_name_dic.items():
         id_name.append([key, value])
-    save_csv("../data/rank_list_" + str(dateStart)+"_free"+str(100), res_sum)
-    save_csv("../data/id_name_" + str(dateStart)+"_free"+str(100), id_name)
+    save_csv("../data/rank_list_" + str(dateStart)+"_pay"+str(100), res_sum)
+    save_csv("../data/id_name_" + str(dateStart)+"_pay"+str(100), id_name)
     print('finish=' + str(dateStart) + ':' + str(dateEnd))
 
 

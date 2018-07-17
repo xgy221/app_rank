@@ -3,7 +3,6 @@ import urllib.parse
 import datetime
 import csv
 
-
 app_id = 1612581
 mid_time = ''
 res_review = []
