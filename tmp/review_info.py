@@ -3,7 +3,7 @@ import urllib.parse
 import datetime
 import csv
 
-app_id = 1052403
+app_id = 1336946
 mid_time = ''
 res_review = []
 content_list_sum = []
