@@ -33,8 +33,8 @@ async def get_review_origin(session, date_start, date_end, appid, headers):
         'or_and': 'and',
         'filterFields': '',
         'filterValues': '',
-        'sentiment': '0,1,2',
-        'trashLevels': '0,1,2,3,4,5,6,7,8,9,10,11',
+        'sentiment': '',
+        'trashLevels': '',
     }
     async with session.post("http://fsight.qq.com/DataSearchAjax", data=post_data, headers=headers) as response:
         try:
@@ -73,15 +73,31 @@ def getmidtime(start, end):
 
 async def get_data_async(session, start, end, appid, headers):
     print(start, end)
+
     data = await get_review_origin(session, start, end, appid, headers)
     data = list(map(getuseful, data))
 
-    if len(data) < 30:
-        return start, data
+    if not data or len(data) == 0:
+        return start, []
 
     # start = data[-1]
     start_sub = data[-1][0]
     mid = getmidtime(start_sub, end)
+
+    if len(data) < 30:
+        starttime = time.strptime(start_sub, "%Y-%m-%d %H:%M:%S")
+        endtime = time.strptime(end, "%Y-%m-%d %H:%M:%S")
+        res = []
+        if starttime.tm_mon != endtime.tm_mon:
+            next_month = starttime.tm_mon + 1
+            next_year = starttime.tm_year
+            if next_month > 12:
+                next_month = 1
+                next_year += 1
+            next_month_1 = datetime.date(next_year, next_month, 1).strftime(
+                '%Y-%m-%d %H:%M:%S')
+            _, res = await get_data_async(session, next_month_1, end, appid, headers)
+        return start, data + res
 
     ltask = get_data_async(session, start_sub, mid, appid, headers)
     rtask = get_data_async(session, mid, end, appid, headers)
@@ -99,6 +115,12 @@ async def get_data_async(session, start, end, appid, headers):
 
     data += ldata + rdata
 
+    # startt = datetime2timestamp(start)
+    # endt = datetime2timestamp(end)
+    # tardata = "2017-07-01 00:15:04"
+    # tart = datetime2timestamp(tardata)
+    # if startt <= tart <= endt:
+    #     print(data, start, end)
     return start, data
 
 
@@ -131,6 +153,7 @@ def uniquedata(data):
 async def main():
     now = time.time()
 
+    # date_start = datetime.datetime(2017, 6, 30, 17, 11, 26).strftime('%Y-%m-%d %H:%M:%S')
     date_start = datetime.datetime(2017, 5, 1, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S')
     # date_end = datetime.datetime(2017, 5, 1, 0, 2, 39).strftime('%Y-%m-%d %H:%M:%S')
     # date_end = datetime.datetime(2017, 6, 1, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S')
@@ -147,15 +170,24 @@ async def main():
         headers = {
             'X-CSRF-TOKEN': token,
         }
-        appids = [173]
-        # appids = [1143952, 935106, 857030, 1203042, 1115251, 9185, 6681, 1191777, 667236, 7158, 1199024]
-        # appids = [857030, 1203042, 1115251, 9185, 6681, 1191777, 667236, 7158, 1199024]
+        appids = []
+        free_processed_id = []
+        with open("../data/data_needed/id_name_free.csv", 'r', newline="", encoding='utf-8-sig') as f:
+            all_list =list(csv.reader((line.replace('\0', '')for line in f)))
+            for item in all_list:
+                appids.append(item[0])
+            with open("../data/data_needed/free_processed_id.csv", 'r', newline="", encoding='utf-8-sig') as f:
+                free_processed_id_1 = list(csv.reader((line.replace('\0', '') for line in f)))[0]
+                appids = list(set(appids).difference(set(free_processed_id_1)))
+
         for appid in appids:
             print(appid)
             _, data = await get_data_async(session, date_start, date_end, appid, headers)
             # 去重
             data = uniquedata(data)
-            save_csv("../review_data/pay/dyh_t_" + str(appid), data)
+            save_csv("../review_data/free/review" + str(appid), data)
+            free_processed_id.append(appid)
+            save_csv("../data/data_needed/free_processed_id", [free_processed_id])
             print(len(data), time.time() - now)
 
 
