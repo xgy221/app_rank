@@ -5,6 +5,7 @@ import requests
 import datetime
 import csv
 import time
+import os.path
 
 
 # 获取评论
@@ -171,23 +172,21 @@ async def main():
             'X-CSRF-TOKEN': token,
         }
         appids = []
-        free_processed_id = []
-        with open("../data/data_needed/id_name_free.csv", 'r', newline="", encoding='utf-8-sig') as f:
-            all_list =list(csv.reader((line.replace('\0', '')for line in f)))
+        with open("../data/data_needed/id_name_pay.csv", 'r', newline="", encoding='utf-8-sig') as f:
+            all_list = list(csv.reader((line.replace('\0', '') for line in f)))
             for item in all_list:
                 appids.append(item[0])
-            with open("../data/data_needed/free_processed_id.csv", 'r', newline="", encoding='utf-8-sig') as f:
-                free_processed_id_1 = list(csv.reader((line.replace('\0', '') for line in f)))[0]
-                appids = list(set(appids).difference(set(free_processed_id_1)))
 
         for appid in appids:
+            if os.path.isfile("../review_data/pay/review" + str(appid) + '.csv'):
+                print('xixixi!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+                continue
+
             print(appid)
             _, data = await get_data_async(session, date_start, date_end, appid, headers)
             # 去重
             data = uniquedata(data)
-            save_csv("../review_data/free/review" + str(appid), data)
-            free_processed_id.append(appid)
-            save_csv("../data/data_needed/free_processed_id", [free_processed_id])
+            save_csv("../review_data/pay/review" + str(appid), data)
             print(len(data), time.time() - now)
 
 
