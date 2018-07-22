@@ -3,7 +3,7 @@ import urllib.parse
 import datetime
 import csv
 
-app_id = 1336946
+app_id = 173
 mid_time = ''
 res_review = []
 content_list_sum = []
@@ -39,8 +39,8 @@ def get_review_origin(connection, date_start, date_end, next_page, token):
         'or_and': 'and',
         'filterFields': '',
         'filterValues': '',
-        'sentiment': '0,1,2',
-        'trashLevels': '0,1,2,3,4,5,6,7,8,9,10,11',
+        'sentiment': '',
+        'trashLevels': '',
     }
 
     response = connection.post("http://fsight.qq.com/DataSearchAjax", data=post_data, headers=headers)
