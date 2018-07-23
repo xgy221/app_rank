@@ -172,7 +172,7 @@ async def main():
             'X-CSRF-TOKEN': token,
         }
         appids = []
-        with open("../data/data_needed/id_name_pay.csv", 'r', newline="", encoding='utf-8-sig') as f:
+        with open("../data/data_needed/id_name_pay_dealed.csv", 'r', newline="", encoding='utf-8-sig') as f:
             all_list = list(csv.reader((line.replace('\0', '') for line in f)))
             for item in all_list:
                 appids.append(item[0])
