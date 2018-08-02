@@ -29,6 +29,6 @@ def save_csv(file_name, data):
             writer.writerow(row)
 
 
-save_csv("../pre_processed_data/free" + str(75), result_words)
+save_csv("../pre_processed_data/free/free" + str(75), result_words)
 
 
