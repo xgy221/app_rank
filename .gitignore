@@ -15,3 +15,5 @@ __pycache__
 review_data/free/*.csv
 review_data/pay/*.csv
 free_processed_id.csv
+
+pre_processed_data/*.csv
