@@ -10,5 +10,7 @@ with open("../pre_processed_data/free/free75.csv", 'r', newline="", encoding='ut
 
 dictionary = corpora.Dictionary(all_list)
 corpus = [dictionary.doc2bow(text) for text in all_list]
+for i in range(0,len(all_list)):
+    print(corpus[i])
 lda_model = gensim.models.ldamodel.LdaModel(corpus, num_topics=6, id2word=dictionary, passes=20)
 print(lda_model.print_topics(num_topics=6, num_words=4))
