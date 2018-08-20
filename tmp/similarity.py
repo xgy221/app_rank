@@ -6,12 +6,11 @@ from gensim import corpora, models, similarities
 
 sum_sim = 0
 
-with open("../paper_needed/jieba_deal173.csv", 'r', newline="", encoding='utf-8-sig') as f:
+with open("../paper_needed/jieba_deal1739536.csv", 'r', newline="", encoding='utf-8-sig') as f:
     all_list = list(csv.reader((line.replace('\0', '') for line in f)))
 
 dictionary = corpora.Dictionary(all_list)
 corpus = [dictionary.doc2bow(text) for text in all_list]
-print(corpus)
 tf_idf = models.TfidfModel(corpus)
 corpus_tf_idf = tf_idf[corpus]
 
@@ -25,3 +24,5 @@ for data in all_list:
 
 sim = (sum_sim-30)/2
 print(sim)
+ave_sim = sim*2/(30*29)
+print(ave_sim)

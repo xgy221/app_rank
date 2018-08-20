@@ -49,7 +49,7 @@ def format_str(content):
     return content_str
 
 
-with open("../paper_needed/review173.csv", 'r', newline="", encoding='utf-8-sig') as f:
+with open("../paper_needed/review1739536.csv", 'r', newline="", encoding='utf-8-sig') as f:
     all_list = list(csv.reader((line.replace('\0', '') for line in f)))
     for item in all_list:
         xixistr = format_str(item[3])
@@ -63,4 +63,4 @@ with open("../paper_needed/review173.csv", 'r', newline="", encoding='utf-8-sig'
         if len(useful) > 0:
             result_words.append(useful)
 
-save_csv("../paper_needed/jieba_deal" + str(173), result_words)
+save_csv("../paper_needed/jieba_deal" + str(1739536), result_words)
